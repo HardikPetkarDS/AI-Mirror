@@ -1,0 +1,49 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:15-alpine
+    container_name: ai_mirror_db
+    environment:
+      POSTGRES_USER: aimirror
+      POSTGRES_PASSWORD: aimirror_password
+      POSTGRES_DB: ai_mirror_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U aimirror -d ai_mirror_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: ai_mirror_backend
+    environment:
+      - DATABASE_URL=postgresql://aimirror:aimirror_password@postgres:5432/ai_mirror_db
+      - SECRET_KEY=super-secret-key-ai-mirror-2026-production
+      - VIRTUAL_TRYON_PROVIDER=mock
+    ports:
+      - "8000:8000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: ai_mirror_frontend
+    environment:
+      - NEXT_PUBLIC_API_URL=http://localhost:8000/api/v1
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+
+volumes:
+  postgres_data:

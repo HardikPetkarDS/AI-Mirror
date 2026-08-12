@@ -4,6 +4,7 @@ import { ProductCard } from './ProductCard';
 import { fetchProducts } from '../lib/api';
 
 interface ProductDrawerProps {
+  selectedProductId?: number;
   onTryOnProduct: (product: Product) => void;
   onSelectProduct: (product: Product) => void;
 }
@@ -12,7 +13,11 @@ const RETAILERS = ['All Stores', 'Myntra', 'Zara', 'H&M', 'AJIO', 'Nykaa', 'Amaz
 const CATEGORIES = ['All Categories', 'T-shirts', 'Shirts', 'Jackets', 'Dresses', 'Jeans', 'Trousers', 'Shoes'];
 const FITS = ['All Fits', 'Regular Fit', 'Slim Fit', 'Relaxed Fit', 'Oversized'];
 
-export const ProductDrawer: React.FC<ProductDrawerProps> = ({ onTryOnProduct, onSelectProduct }) => {
+export const ProductDrawer: React.FC<ProductDrawerProps> = ({
+  selectedProductId,
+  onTryOnProduct,
+  onSelectProduct,
+}) => {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
@@ -156,6 +161,7 @@ export const ProductDrawer: React.FC<ProductDrawerProps> = ({ onTryOnProduct, on
             <ProductCard
               key={p.id}
               product={p}
+              isSelected={selectedProductId === p.id}
               onTryOn={onTryOnProduct}
               onSelect={onSelectProduct}
             />

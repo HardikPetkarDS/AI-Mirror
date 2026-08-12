@@ -3,11 +3,17 @@ import { Product } from '../types';
 
 interface ProductCardProps {
   product: Product;
+  isSelected?: boolean;
   onTryOn: (product: Product) => void;
   onSelect: (product: Product) => void;
 }
 
-export const ProductCard: React.FC<ProductCardProps> = ({ product, onTryOn, onSelect }) => {
+export const ProductCard: React.FC<ProductCardProps> = ({
+  product,
+  isSelected,
+  onTryOn,
+  onSelect,
+}) => {
   const getRetailerColor = (retailer: string) => {
     switch (retailer.toLowerCase()) {
       case 'myntra':
@@ -30,9 +36,15 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, onTryOn, onSe
   };
 
   return (
-    <div className="group bg-slate-900/80 rounded-2xl border border-slate-800 hover:border-indigo-500/40 transition-all duration-300 overflow-hidden flex flex-col justify-between">
+    <div
+      className={`group bg-slate-900/80 rounded-2xl border transition-all duration-300 overflow-hidden flex flex-col justify-between ${
+        isSelected
+          ? 'border-indigo-500 ring-2 ring-indigo-500/50 shadow-lg shadow-indigo-500/20'
+          : 'border-slate-800 hover:border-indigo-500/40'
+      }`}
+    >
       {/* Product Image & Badges */}
-      <div 
+      <div
         onClick={() => onSelect(product)}
         className="relative aspect-[3/4] w-full overflow-hidden bg-slate-950 cursor-pointer"
       >
@@ -54,6 +66,13 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, onTryOn, onSe
           )}
         </div>
 
+        {/* Active Overlay Badge */}
+        {isSelected && (
+          <div className="absolute top-2.5 left-1/2 -translate-x-1/2 px-2.5 py-0.5 rounded-full bg-indigo-600 text-white text-[10px] font-bold shadow-md">
+            ✓ Active on Mirror
+          </div>
+        )}
+
         {/* Fit Type Pill */}
         <div className="absolute bottom-2.5 left-2.5">
           <span className="px-2 py-0.5 rounded-md bg-slate-950/80 backdrop-blur-md text-[10px] text-slate-300 border border-slate-800 font-medium">
@@ -66,7 +85,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, onTryOn, onSe
       <div className="p-3.5 space-y-2">
         <div>
           <span className="text-[10px] font-semibold text-slate-400 uppercase tracking-wider">{product.brand}</span>
-          <h4 
+          <h4
             onClick={() => onSelect(product)}
             className="text-xs font-bold text-white leading-snug line-clamp-1 cursor-pointer hover:text-indigo-300 transition-colors"
           >
@@ -105,9 +124,13 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, onTryOn, onSe
         {/* Try On Button */}
         <button
           onClick={() => onTryOn(product)}
-          className="w-full py-2 rounded-xl bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 hover:from-indigo-500 hover:to-pink-500 text-white text-xs font-bold shadow-md shadow-indigo-500/20 transition-all duration-200 flex items-center justify-center space-x-1.5"
+          className={`w-full py-2 rounded-xl text-xs font-bold transition-all duration-200 flex items-center justify-center space-x-1.5 ${
+            isSelected
+              ? 'bg-emerald-600 text-white shadow-md shadow-emerald-500/20'
+              : 'bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 hover:from-indigo-500 hover:to-pink-500 text-white shadow-md shadow-indigo-500/20'
+          }`}
         >
-          <span>✨ Try On</span>
+          <span>{isSelected ? '✓ On Mirror' : '✨ Try On'}</span>
         </button>
       </div>
     </div>

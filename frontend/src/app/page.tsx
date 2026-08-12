@@ -10,10 +10,11 @@ import { OutfitBuilderView } from '../components/OutfitBuilderView';
 import { UserProfileView } from '../components/UserProfileView';
 import { HowItWorks, PrivacyNotice } from '../components/HowItWorks';
 import { Product } from '../types';
+import { MOCK_PRODUCTS } from '../lib/mockData';
 
 export default function Home() {
   const [currentTab, setCurrentTab] = useState<'home' | 'mirror' | 'outfits' | 'profile'>('home');
-  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+  const [selectedProduct, setSelectedProduct] = useState<Product | null>(MOCK_PRODUCTS[0] || null);
   const [tryOnModalProduct, setTryOnModalProduct] = useState<Product | null>(null);
   const [userCapturedImage, setUserCapturedImage] = useState<string | null>(null);
   const [outfitItems, setOutfitItems] = useState<Product[]>([]);
@@ -22,8 +23,13 @@ export default function Home() {
     setUserCapturedImage(base64Img);
   };
 
+  // Immediate real-time virtual try-on over live video feed
   const handleTryOnProduct = (product: Product) => {
-    // If no snapshot captured yet, use fallback sample avatar image
+    setSelectedProduct(product);
+  };
+
+  // Open Fit Passport / Detailed Size Analysis Modal on explicit request
+  const handleOpenFitPassport = (product: Product) => {
     if (!userCapturedImage) {
       const defaultAvatar = 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=800&auto=format&fit=crop';
       setUserCapturedImage(defaultAvatar);
@@ -70,17 +76,20 @@ export default function Home() {
         {currentTab === 'mirror' && (
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 h-[calc(100vh-6rem)]">
-              {/* Left Column: Live Camera Mirror */}
+              {/* Left Column: Live Camera Mirror with Real-time Virtual Garment AR Overlay */}
               <div className="lg:col-span-7 h-full">
                 <CameraMirror
                   onCaptureSnapshot={handleCaptureSnapshot}
-                  activeGarmentName={tryOnModalProduct?.name}
+                  activeProduct={selectedProduct}
+                  onOpenFitPassport={handleOpenFitPassport}
+                  onAddToOutfit={handleAddToOutfit}
                 />
               </div>
 
               {/* Right Column: Interactive Product Drawer */}
               <div className="lg:col-span-5 h-full overflow-hidden rounded-3xl">
                 <ProductDrawer
+                  selectedProductId={selectedProduct?.id}
                   onTryOnProduct={handleTryOnProduct}
                   onSelectProduct={(p) => setSelectedProduct(p)}
                 />
@@ -100,7 +109,7 @@ export default function Home() {
         {currentTab === 'profile' && <UserProfileView />}
       </main>
 
-      {/* Try-On Modal */}
+      {/* Try-On / Size Analysis Modal (Explicitly opened via Fit Analysis) */}
       {tryOnModalProduct && userCapturedImage && (
         <TryOnModal
           product={tryOnModalProduct}
@@ -116,10 +125,10 @@ export default function Home() {
           <div className="flex items-center space-x-2">
             <span className="font-bold text-slate-300">AI Mirror</span>
             <span>•</span>
-            <span>Commercial Fashion-Tech Platform</span>
+            <span>Real-Time Virtual Fitting Room</span>
           </div>
           <div>
-            Built with Next.js, FastAPI, OpenCV, MediaPipe & AI Size Recommendation Engine
+            Built with Next.js, WebRTC, HTML5 Canvas AR, FastAPI & AI Size Engine
           </div>
         </div>
       </footer>

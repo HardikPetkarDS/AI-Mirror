@@ -67,14 +67,17 @@ export const CameraMirror: React.FC<CameraMirrorProps> = ({ onCaptureSnapshot, a
 
       {/* Video Viewport */}
       <div className="relative w-full h-full flex items-center justify-center bg-slate-950">
-        {isCameraActive ? (
-          <video
-            ref={videoRef}
-            playsInline
-            muted
-            className={`w-full h-full object-cover ${facingMode === 'user' ? 'scale-x-[-1]' : ''}`}
-          />
-        ) : (
+        <video
+          ref={videoRef}
+          autoPlay
+          playsInline
+          muted
+          className={`w-full h-full object-cover ${facingMode === 'user' ? 'scale-x-[-1]' : ''} ${
+            isCameraActive ? 'block' : 'hidden'
+          }`}
+        />
+
+        {!isCameraActive && (
           <div className="text-center p-6 space-y-4 max-w-sm">
             <div className="w-16 h-16 rounded-full bg-slate-900 flex items-center justify-center text-3xl mx-auto border border-slate-800 text-slate-500">
               📷

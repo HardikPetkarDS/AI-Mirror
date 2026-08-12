@@ -34,6 +34,28 @@ export function useCamera(): UseCameraResult {
     setIsCameraActive(false);
   }, []);
 
+  const attachStream = useCallback(() => {
+    const video = videoRef.current;
+    const stream = streamRef.current;
+    if (video && stream) {
+      if (video.srcObject !== stream) {
+        video.srcObject = stream;
+      }
+      video.autoplay = true;
+      video.playsInline = true;
+      video.muted = true;
+
+      const playPromise = video.play();
+      if (playPromise !== undefined) {
+        playPromise.catch((err) => {
+          if (err.name !== 'AbortError') {
+            console.warn('Video playback notice:', err);
+          }
+        });
+      }
+    }
+  }, []);
+
   const startCamera = useCallback(async () => {
     setCameraError(null);
     stopCamera();
@@ -56,15 +78,11 @@ export function useCamera(): UseCameraResult {
       const stream = await navigator.mediaDevices.getUserMedia(constraints);
       streamRef.current = stream;
 
-      if (videoRef.current) {
-        videoRef.current.srcObject = stream;
-        videoRef.current.onloadedmetadata = () => {
-          videoRef.current?.play().catch((err) => console.error('Play failed', err));
-        };
-      }
-
       setIsCameraActive(true);
       setIsPermissionGranted(true);
+
+      // Attach stream to video element
+      attachStream();
     } catch (err: any) {
       console.error('Camera access error:', err);
       setIsCameraActive(false);
@@ -76,7 +94,14 @@ export function useCamera(): UseCameraResult {
         setCameraError('Unable to initialize camera feed. Please check your webcam.');
       }
     }
-  }, [facingMode, stopCamera]);
+  }, [facingMode, stopCamera, attachStream]);
+
+  // Ensure stream remains attached and playing when video element or state updates
+  useEffect(() => {
+    if (isCameraActive) {
+      attachStream();
+    }
+  }, [isCameraActive, attachStream]);
 
   const switchCamera = useCallback(() => {
     setFacingMode((prev) => (prev === 'user' ? 'environment' : 'user'));
@@ -86,6 +111,8 @@ export function useCamera(): UseCameraResult {
     if (!videoRef.current || !isCameraActive) return null;
 
     const video = videoRef.current;
+    if (video.readyState < 2) return null;
+
     const canvas = canvasRef.current || document.createElement('canvas');
     canvas.width = video.videoWidth || 640;
     canvas.height = video.videoHeight || 480;

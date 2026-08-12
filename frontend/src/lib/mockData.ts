@@ -19,6 +19,7 @@ export const MOCK_PRODUCTS: Product[] = [
       'https://images.unsplash.com/photo-1521572267360-ee0c2909d518?w=800&auto=format&fit=crop',
       'https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?w=800&auto=format&fit=crop',
     ],
+    tryOnAsset: '/garments/tshirt_black_oversized.svg',
     product_url: 'https://www.myntra.com/tshirts/roadster/men-black-oversized/1001',
     affiliate_url: 'https://myntra.com/aff/aimirror/1001',
     available_sizes: ['S', 'M', 'L', 'XL', 'XXL'],
@@ -30,7 +31,6 @@ export const MOCK_PRODUCTS: Product[] = [
       { id: 101, size_label: 'S', chest_min: 92, chest_max: 96, shoulder_min: 44, shoulder_max: 46, waist_min: 78, waist_max: 82, length_cm: 70 },
       { id: 102, size_label: 'M', chest_min: 98, chest_max: 103, shoulder_min: 46.5, shoulder_max: 48.5, waist_min: 84, waist_max: 88, length_cm: 72 },
       { id: 103, size_label: 'L', chest_min: 104, chest_max: 109, shoulder_min: 49, shoulder_max: 51, waist_min: 90, waist_max: 94, length_cm: 74 },
-      { id: 104, size_label: 'XL', chest_min: 110, chest_max: 116, shoulder_min: 51.5, shoulder_max: 53.5, waist_min: 96, waist_max: 102, length_cm: 76 },
     ],
   },
   {
@@ -50,6 +50,7 @@ export const MOCK_PRODUCTS: Product[] = [
       'https://images.unsplash.com/photo-1521572267360-ee0c2909d518?w=800&auto=format&fit=crop',
       'https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?w=800&auto=format&fit=crop',
     ],
+    tryOnAsset: '/garments/tshirt_white_textured.svg',
     product_url: 'https://www.zara.com/in/en/heavyweight-textured-white-tee-p1002',
     affiliate_url: 'https://zara.com/aff/aimirror/1002',
     available_sizes: ['XS', 'S', 'M', 'L', 'XL'],
@@ -60,7 +61,6 @@ export const MOCK_PRODUCTS: Product[] = [
     size_charts: [
       { id: 201, size_label: 'S', chest_min: 92, chest_max: 96, shoulder_min: 44, shoulder_max: 45.5, waist_min: 78, waist_max: 82, length_cm: 69 },
       { id: 202, size_label: 'M', chest_min: 98, chest_max: 102, shoulder_min: 46, shoulder_max: 47.5, waist_min: 84, waist_max: 88, length_cm: 71 },
-      { id: 203, size_label: 'L', chest_min: 104, chest_max: 108, shoulder_min: 48, shoulder_max: 49.5, waist_min: 90, waist_max: 94, length_cm: 73 },
     ],
   },
   {
@@ -79,6 +79,7 @@ export const MOCK_PRODUCTS: Product[] = [
     images: [
       'https://images.unsplash.com/photo-1576566588028-4147f3842f27?w=800&auto=format&fit=crop',
     ],
+    tryOnAsset: '/garments/tshirt_sage_vintage.svg',
     product_url: 'https://www2.hm.com/en_in/productpage.1003.html',
     affiliate_url: 'https://hm.com/aff/aimirror/1003',
     available_sizes: ['S', 'M', 'L', 'XL'],
@@ -89,7 +90,6 @@ export const MOCK_PRODUCTS: Product[] = [
     size_charts: [
       { id: 301, size_label: 'S', chest_min: 90, chest_max: 95, shoulder_min: 43, shoulder_max: 45, waist_min: 76, waist_max: 80, length_cm: 68 },
       { id: 302, size_label: 'M', chest_min: 96, chest_max: 101, shoulder_min: 45.5, shoulder_max: 47.5, waist_min: 82, waist_max: 86, length_cm: 70 },
-      { id: 303, size_label: 'L', chest_min: 102, chest_max: 107, shoulder_min: 48, shoulder_max: 50, waist_min: 88, waist_max: 93, length_cm: 72 },
     ],
   },
 
@@ -111,6 +111,7 @@ export const MOCK_PRODUCTS: Product[] = [
       'https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=800&auto=format&fit=crop',
       'https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf?w=800&auto=format&fit=crop',
     ],
+    tryOnAsset: '/garments/shirt_blue_linen.svg',
     product_url: 'https://www.ajio.com/netplay-linen-casual-shirt/p/1004',
     affiliate_url: 'https://ajio.com/aff/aimirror/1004',
     available_sizes: ['38', '40', '42', '44'],
@@ -121,7 +122,6 @@ export const MOCK_PRODUCTS: Product[] = [
     size_charts: [
       { id: 401, size_label: '38', chest_min: 94, chest_max: 98, shoulder_min: 43, shoulder_max: 44.5, waist_min: 80, waist_max: 84, length_cm: 73 },
       { id: 402, size_label: '40', chest_min: 99, chest_max: 103, shoulder_min: 45, shoulder_max: 46.5, waist_min: 85, waist_max: 89, length_cm: 75 },
-      { id: 403, size_label: '42', chest_min: 104, chest_max: 108, shoulder_min: 47, shoulder_max: 48.5, waist_min: 90, waist_max: 94, length_cm: 77 },
     ],
   },
   {
@@ -140,6 +140,7 @@ export const MOCK_PRODUCTS: Product[] = [
     images: [
       'https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf?w=800&auto=format&fit=crop',
     ],
+    tryOnAsset: '/garments/tshirt_white_textured.svg',
     product_url: 'https://www.amazon.in/dp/B005AMZ1005',
     affiliate_url: 'https://amazon.in/aff/aimirror/1005',
     available_sizes: ['S', 'M', 'L', 'XL'],
@@ -149,7 +150,6 @@ export const MOCK_PRODUCTS: Product[] = [
     rating: 4.3,
     size_charts: [
       { id: 501, size_label: 'M', chest_min: 98, chest_max: 102, shoulder_min: 45.5, shoulder_max: 47, waist_min: 84, waist_max: 88, length_cm: 76 },
-      { id: 502, size_label: 'L', chest_min: 104, chest_max: 108, shoulder_min: 47.5, shoulder_max: 49, waist_min: 90, waist_max: 95, length_cm: 78 },
     ],
   },
 
@@ -171,6 +171,7 @@ export const MOCK_PRODUCTS: Product[] = [
       'https://images.unsplash.com/photo-1543076447-215ad9ba6923?w=800&auto=format&fit=crop',
       'https://images.unsplash.com/photo-1576995853123-5a10305d93c0?w=800&auto=format&fit=crop',
     ],
+    tryOnAsset: '/garments/jacket_denim_trucker.svg',
     product_url: 'https://www.myntra.com/jackets/levis/trucker-denim/1006',
     affiliate_url: 'https://myntra.com/aff/aimirror/1006',
     available_sizes: ['S', 'M', 'L', 'XL'],
@@ -180,7 +181,6 @@ export const MOCK_PRODUCTS: Product[] = [
     rating: 4.9,
     size_charts: [
       { id: 601, size_label: 'M', chest_min: 100, chest_max: 105, shoulder_min: 46.5, shoulder_max: 48.5, waist_min: 86, waist_max: 91, length_cm: 66 },
-      { id: 602, size_label: 'L', chest_min: 106, chest_max: 111, shoulder_min: 49, shoulder_max: 51, waist_min: 92, waist_max: 97, length_cm: 68 },
     ],
   },
   {
@@ -199,6 +199,7 @@ export const MOCK_PRODUCTS: Product[] = [
     images: [
       'https://images.unsplash.com/photo-1551028719-00167b16eac5?w=800&auto=format&fit=crop',
     ],
+    tryOnAsset: '/garments/jacket_black_leather.svg',
     product_url: 'https://www.zara.com/in/en/biker-jacket-p1007',
     affiliate_url: 'https://zara.com/aff/aimirror/1007',
     available_sizes: ['S', 'M', 'L', 'XL'],
@@ -208,7 +209,6 @@ export const MOCK_PRODUCTS: Product[] = [
     rating: 4.7,
     size_charts: [
       { id: 701, size_label: 'M', chest_min: 98, chest_max: 102, shoulder_min: 45, shoulder_max: 46.5, waist_min: 84, waist_max: 88, length_cm: 65 },
-      { id: 702, size_label: 'L', chest_min: 104, chest_max: 108, shoulder_min: 47, shoulder_max: 48.5, waist_min: 90, waist_max: 94, length_cm: 67 },
     ],
   },
 
@@ -230,6 +230,7 @@ export const MOCK_PRODUCTS: Product[] = [
       'https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=800&auto=format&fit=crop',
       'https://images.unsplash.com/photo-1539109136881-3be0616acf4b?w=800&auto=format&fit=crop',
     ],
+    tryOnAsset: '/garments/dress_floral_midi.svg',
     product_url: 'https://www.nykaafashion.com/twenty-dresses-floral-midi/p/1008',
     affiliate_url: 'https://nykaafashion.com/aff/aimirror/1008',
     available_sizes: ['XS', 'S', 'M', 'L', 'XL'],
@@ -239,7 +240,6 @@ export const MOCK_PRODUCTS: Product[] = [
     rating: 4.7,
     size_charts: [
       { id: 801, size_label: 'S', chest_min: 85, chest_max: 89, shoulder_min: 37, shoulder_max: 38, waist_min: 69, waist_max: 73, length_cm: 112 },
-      { id: 802, size_label: 'M', chest_min: 90, chest_max: 94, shoulder_min: 38.5, shoulder_max: 39.5, waist_min: 74, waist_max: 78, length_cm: 114 },
     ],
   },
   {
@@ -258,6 +258,7 @@ export const MOCK_PRODUCTS: Product[] = [
     images: [
       'https://images.unsplash.com/photo-1539109136881-3be0616acf4b?w=800&auto=format&fit=crop',
     ],
+    tryOnAsset: '/garments/dress_black_bodycon.svg',
     product_url: 'https://www2.hm.com/en_in/productpage.1009.html',
     affiliate_url: 'https://hm.com/aff/aimirror/1009',
     available_sizes: ['XS', 'S', 'M', 'L'],
@@ -267,7 +268,6 @@ export const MOCK_PRODUCTS: Product[] = [
     rating: 4.5,
     size_charts: [
       { id: 901, size_label: 'S', chest_min: 83, chest_max: 87, shoulder_min: 36, shoulder_max: 37, waist_min: 65, waist_max: 69, length_cm: 90 },
-      { id: 902, size_label: 'M', chest_min: 88, chest_max: 92, shoulder_min: 37.5, shoulder_max: 38.5, waist_min: 70, waist_max: 74, length_cm: 92 },
     ],
   },
 
@@ -288,6 +288,7 @@ export const MOCK_PRODUCTS: Product[] = [
     images: [
       'https://images.unsplash.com/photo-1541099649105-f69ad21f3246?w=800&auto=format&fit=crop',
     ],
+    tryOnAsset: '/garments/tshirt_black_oversized.svg',
     product_url: 'https://www.myntra.com/jeans/levis/511-slim-blue/1010',
     affiliate_url: 'https://myntra.com/aff/aimirror/1010',
     available_sizes: ['30', '32', '34', '36'],
@@ -297,7 +298,6 @@ export const MOCK_PRODUCTS: Product[] = [
     rating: 4.8,
     size_charts: [
       { id: 1001, size_label: '32', waist_min: 80, waist_max: 83, length_cm: 104 },
-      { id: 1002, size_label: '34', waist_min: 85, waist_max: 88, length_cm: 106 },
     ],
   },
   {
@@ -316,6 +316,7 @@ export const MOCK_PRODUCTS: Product[] = [
     images: [
       'https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?w=800&auto=format&fit=crop',
     ],
+    tryOnAsset: '/garments/tshirt_white_textured.svg',
     product_url: 'https://www.zara.com/in/en/pleated-chino-p1011',
     affiliate_url: 'https://zara.com/aff/aimirror/1011',
     available_sizes: ['30', '32', '34', '36'],
@@ -325,7 +326,6 @@ export const MOCK_PRODUCTS: Product[] = [
     rating: 4.6,
     size_charts: [
       { id: 1101, size_label: '32', waist_min: 81, waist_max: 84, length_cm: 103 },
-      { id: 1102, size_label: '34', waist_min: 86, waist_max: 89, length_cm: 105 },
     ],
   },
 
@@ -346,6 +346,7 @@ export const MOCK_PRODUCTS: Product[] = [
     images: [
       'https://images.unsplash.com/photo-1549298916-b41d501d3772?w=800&auto=format&fit=crop',
     ],
+    tryOnAsset: '/garments/tshirt_sage_vintage.svg',
     product_url: 'https://www.amazon.in/dp/B005AMZ1012',
     affiliate_url: 'https://amazon.in/aff/aimirror/1012',
     available_sizes: ['UK 7', 'UK 8', 'UK 9', 'UK 10'],
@@ -355,16 +356,25 @@ export const MOCK_PRODUCTS: Product[] = [
     rating: 4.9,
     size_charts: [
       { id: 1201, size_label: 'UK 8', length_cm: 27.0 },
-      { id: 1202, size_label: 'UK 9', length_cm: 28.0 },
     ],
   },
 ];
 
-// Generate synthetic additional products to ensure all retailer & category filters have products
+// Map clean transparent garment assets for synthetic products 13..50
 const BRANDS = ['Roadster', 'HRX', 'Levis', 'Zara', 'H&M', 'Mango', 'Twenty Dresses', 'Netplay', 'Puma', 'Nike', 'Adidas'];
 const RETAILERS = ['Myntra', 'Nykaa', 'AJIO', 'Amazon', 'Zara', 'H&M'];
 const CATEGORIES = ['T-shirts', 'Shirts', 'Jackets', 'Dresses', 'Jeans', 'Trousers', 'Shoes'];
 const FITS = ['Regular Fit', 'Slim Fit', 'Relaxed Fit', 'Oversized'];
+
+const GARMENT_ASSET_MAP: Record<string, string> = {
+  't-shirts': '/garments/tshirt_black_oversized.svg',
+  'shirts': '/garments/shirt_blue_linen.svg',
+  'jackets': '/garments/jacket_denim_trucker.svg',
+  'dresses': '/garments/dress_floral_midi.svg',
+  'jeans': '/garments/tshirt_black_oversized.svg',
+  'trousers': '/garments/tshirt_white_textured.svg',
+  'shoes': '/garments/tshirt_sage_vintage.svg',
+};
 
 for (let i = 13; i <= 50; i++) {
   const cat = CATEGORIES[i % CATEGORIES.length];
@@ -372,6 +382,7 @@ for (let i = 13; i <= 50; i++) {
   const ret = RETAILERS[i % RETAILERS.length];
   const fit = FITS[i % FITS.length];
   const baseProduct = MOCK_PRODUCTS[(i - 1) % 12];
+  const asset = GARMENT_ASSET_MAP[cat.toLowerCase()] || '/garments/tshirt_black_oversized.svg';
 
   MOCK_PRODUCTS.push({
     id: i,
@@ -387,6 +398,7 @@ for (let i = 13; i <= 50; i++) {
     currency: 'INR',
     discount: Math.floor((i * 5) % 40),
     images: [baseProduct.images[0]],
+    tryOnAsset: asset,
     product_url: `https://www.${ret.toLowerCase().replace(/\s+/g, '')}.com/p/${i}`,
     affiliate_url: `https://${ret.toLowerCase().replace(/\s+/g, '')}.com/aff/aimirror/${i}`,
     available_sizes: cat === 'Jeans' ? ['30', '32', '34'] : cat === 'Shoes' ? ['UK 7', 'UK 8', 'UK 9'] : ['S', 'M', 'L', 'XL'],

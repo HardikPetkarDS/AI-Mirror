@@ -24,6 +24,7 @@ export interface Product {
   currency: string;
   discount: number;
   images: string[];
+  tryOnAsset?: string; // Clean transparent PNG/SVG garment asset for live AR try-on
   product_url: string;
   affiliate_url: string;
   available_sizes: string[];

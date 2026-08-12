@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 480" width="100%" height="100%">
+  <defs>
+    <linearGradient id="denimGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#3b82f6"/>
+      <stop offset="60%" stop-color="#1d4ed8"/>
+      <stop offset="100%" stop-color="#1e3a8a"/>
+    </linearGradient>
+    <filter id="garmentShadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="8" stdDeviation="6" flood-color="#000000" flood-opacity="0.35"/>
+    </filter>
+  </defs>
+  <g filter="url(#garmentShadow)">
+    <path d="M 130 38 
+             L 170 70 L 210 40 L 250 70 L 290 38
+             L 395 115 L 350 200 L 305 170 L 305 440 L 115 440 L 115 170 L 70 200 L 25 115 Z" 
+          fill="url(#denimGrad)" stroke="#1e40af" stroke-width="4" stroke-linejoin="round"/>
+    <!-- Center Opening -->
+    <line x1="210" y1="40" x2="210" y2="440" stroke="#fbbf24" stroke-width="3"/>
+    <!-- Metallic Buttons -->
+    <circle cx="210" cy="115" r="5" fill="#f59e0b" stroke="#78350f" stroke-width="2"/>
+    <circle cx="210" cy="185" r="5" fill="#f59e0b" stroke="#78350f" stroke-width="2"/>
+    <circle cx="210" cy="255" r="5" fill="#f59e0b" stroke="#78350f" stroke-width="2"/>
+    <circle cx="210" cy="325" r="5" fill="#f59e0b" stroke="#78350f" stroke-width="2"/>
+    <!-- Chest Flap Pockets -->
+    <path d="M 135 130 L 185 130 L 185 175 L 160 190 L 135 175 Z" fill="none" stroke="#fbbf24" stroke-width="2"/>
+    <path d="M 235 130 L 285 130 L 285 175 L 260 190 L 235 175 Z" fill="none" stroke="#fbbf24" stroke-width="2"/>
+  </g>
+</svg>

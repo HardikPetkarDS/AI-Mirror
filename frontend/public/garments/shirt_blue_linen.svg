@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 480" width="100%" height="100%">
+  <defs>
+    <linearGradient id="linenShirtGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#bae6fd"/>
+      <stop offset="50%" stop-color="#7dd3fc"/>
+      <stop offset="100%" stop-color="#0284c7"/>
+    </linearGradient>
+    <filter id="garmentShadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="8" stdDeviation="6" flood-color="#000000" flood-opacity="0.3"/>
+    </filter>
+  </defs>
+  <g filter="url(#garmentShadow)">
+    <!-- Main Shirt Collar & Placket -->
+    <path d="M 130 40 
+             L 165 75 L 200 45 L 235 75 L 270 40
+             L 375 110 L 330 190 L 290 165 L 290 440 L 110 440 L 110 165 L 70 190 L 25 110 Z" 
+          fill="url(#linenShirtGrad)" stroke="#0369a1" stroke-width="3" stroke-linejoin="round"/>
+    <!-- Center Button Placket -->
+    <line x1="200" y1="45" x2="200" y2="440" stroke="#0284c7" stroke-width="4"/>
+    <!-- Buttons -->
+    <circle cx="200" cy="110" r="4" fill="#ffffff" stroke="#0369a1" stroke-width="1.5"/>
+    <circle cx="200" cy="170" r="4" fill="#ffffff" stroke="#0369a1" stroke-width="1.5"/>
+    <circle cx="200" cy="230" r="4" fill="#ffffff" stroke="#0369a1" stroke-width="1.5"/>
+    <circle cx="200" cy="290" r="4" fill="#ffffff" stroke="#0369a1" stroke-width="1.5"/>
+    <circle cx="200" cy="350" r="4" fill="#ffffff" stroke="#0369a1" stroke-width="1.5"/>
+    <!-- Chest Pocket -->
+    <rect x="225" y="140" width="45" height="50" rx="3" fill="none" stroke="#0369a1" stroke-width="2"/>
+  </g>
+</svg>

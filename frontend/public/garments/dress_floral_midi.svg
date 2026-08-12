@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 520" width="100%" height="100%">
+  <defs>
+    <linearGradient id="dressGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f472b6"/>
+      <stop offset="60%" stop-color="#db2777"/>
+      <stop offset="100%" stop-color="#9d174d"/>
+    </linearGradient>
+    <filter id="garmentShadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="8" stdDeviation="6" flood-color="#000000" flood-opacity="0.3"/>
+    </filter>
+  </defs>
+  <g filter="url(#garmentShadow)">
+    <path d="M 140 40 
+             C 170 65, 230 65, 260 40 
+             L 320 90 L 290 145 L 260 130
+             L 310 490 L 90 490 L 140 130 L 110 145 L 80 90 Z" 
+          fill="url(#dressGrad)" stroke="#be185d" stroke-width="3" stroke-linejoin="round"/>
+    <!-- Floral Accents -->
+    <circle cx="160" cy="180" r="10" fill="#fbcfe8" opacity="0.6"/>
+    <circle cx="240" cy="240" r="14" fill="#fbcfe8" opacity="0.6"/>
+    <circle cx="180" cy="340" r="12" fill="#fbcfe8" opacity="0.6"/>
+    <circle cx="260" cy="410" r="15" fill="#fbcfe8" opacity="0.6"/>
+    <!-- Waist Cinched Belt -->
+    <line x1="140" y1="180" x2="260" y2="180" stroke="#831843" stroke-width="4"/>
+  </g>
+</svg>

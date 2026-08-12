@@ -1,7 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useCamera } from '../hooks/useCamera';
 import { Product } from '../types';
-import { extractTransparentGarment } from '../lib/garmentProcessor';
 import { trackVideoPose, PoseLandmarks } from '../lib/poseTracker';
 
 interface CameraMirrorProps {
@@ -29,27 +28,27 @@ export const CameraMirror: React.FC<CameraMirrorProps> = ({
 
   const overlayCanvasRef = useRef<HTMLCanvasElement>(null);
   const animationFrameRef = useRef<number | null>(null);
-  const processedGarmentCanvasRef = useRef<HTMLCanvasElement | null>(null);
+  const garmentImgRef = useRef<HTMLImageElement | null>(null);
 
   const [guidance, setGuidance] = useState('Full body detected. Live AR active.');
   const [poseStatus, setPoseStatus] = useState<'ideal' | 'closer' | 'further'>('ideal');
 
-  // Process product image to extract transparent garment (background removal)
+  // Preload clean transparent garment asset for live try-on
   useEffect(() => {
-    if (activeProduct && activeProduct.images && activeProduct.images.length > 0) {
+    if (activeProduct) {
+      const assetUrl = activeProduct.tryOnAsset || activeProduct.images[0];
       const img = new Image();
       img.crossOrigin = 'anonymous';
-      img.src = activeProduct.images[0];
+      img.src = assetUrl;
       img.onload = () => {
-        const transparentCanvas = extractTransparentGarment(img);
-        processedGarmentCanvasRef.current = transparentCanvas;
+        garmentImgRef.current = img;
       };
     } else {
-      processedGarmentCanvasRef.current = null;
+      garmentImgRef.current = null;
     }
   }, [activeProduct]);
 
-  // Real-time video pose tracking & transparent garment rendering loop
+  // Real-time video pose tracking & clean transparent garment overlay loop
   useEffect(() => {
     const renderOverlay = () => {
       const video = videoRef.current;
@@ -71,39 +70,36 @@ export const CameraMirror: React.FC<CameraMirrorProps> = ({
           // Track user pose & torso landmarks from live video feed
           const pose: PoseLandmarks = trackVideoPose(video);
 
-          // If transparent garment canvas is ready, render over detected torso
-          const garmentCanvas = processedGarmentCanvasRef.current;
-          if (garmentCanvas && garmentCanvas.width > 0) {
+          // If clean transparent garment image is loaded, render cleanly over torso
+          const garmentImg = garmentImgRef.current;
+          if (garmentImg && garmentImg.complete && garmentImg.naturalWidth > 0) {
             const category = (activeProduct?.category || 'T-shirts').toLowerCase();
 
-            // Calculate garment dimensions relative to detected shoulder width
-            let scaleFactor = 1.35;
-            let offsetYRatio = 0.08;
+            let scaleFactor = 1.30;
+            let offsetYRatio = 0.05; // Position below neck/collarbone
 
             if (category.includes('jacket')) {
-              scaleFactor = 1.45;
-              offsetYRatio = 0.12;
-            } else if (category.includes('jeans') || category.includes('trouser')) {
-              scaleFactor = 1.15;
-              offsetYRatio = -0.50; // Align to lower waist/hips
-            } else if (category.includes('shoe')) {
-              scaleFactor = 0.85;
-              offsetYRatio = -1.10;
+              scaleFactor = 1.40;
+              offsetYRatio = 0.02;
+            } else if (category.includes('dress')) {
+              scaleFactor = 1.25;
+              offsetYRatio = 0.05;
             }
 
             const garmentW = pose.shoulderWidth * scaleFactor;
-            const garmentH = garmentW * (garmentCanvas.height / garmentCanvas.width);
+            const garmentH = garmentW * (garmentImg.naturalHeight / garmentImg.naturalWidth);
 
             // Translate & rotate canvas to match detected shoulder angle & torso center
             ctx.save();
-            ctx.translate(pose.torsoCenter.x, pose.torsoCenter.y);
+            const targetY = pose.leftShoulder.y + garmentH * offsetYRatio;
+            ctx.translate(pose.torsoCenter.x, targetY);
             ctx.rotate(pose.shoulderAngle);
 
-            // Render ONLY the clothing pixels (background is completely transparent)
+            // Render ONLY the transparent garment (0% background rectangle)
             ctx.drawImage(
-              garmentCanvas,
+              garmentImg,
               -garmentW / 2,
-              -garmentH * offsetYRatio,
+              0,
               garmentW,
               garmentH
             );

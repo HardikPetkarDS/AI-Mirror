@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 450" width="100%" height="100%">
+  <defs>
+    <linearGradient id="sageTeeGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#84a98c"/>
+      <stop offset="60%" stop-color="#52796f"/>
+      <stop offset="100%" stop-color="#354f52"/>
+    </linearGradient>
+    <filter id="garmentShadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="8" stdDeviation="6" flood-color="#000000" flood-opacity="0.3"/>
+    </filter>
+  </defs>
+  <g filter="url(#garmentShadow)">
+    <path d="M 125 42 
+             C 160 62, 240 62, 275 42 
+             L 365 105 
+             L 318 178 
+             L 282 155 
+             L 282 405 
+             L 118 405 
+             L 118 155 
+             L 82 178 
+             L 35 105 Z" 
+          fill="url(#sageTeeGrad)" stroke="#2f3e46" stroke-width="3" stroke-linejoin="round"/>
+    <path d="M 142 46 C 170 80, 230 80, 258 46" fill="none" stroke="#354f52" stroke-width="4" stroke-linecap="round"/>
+    <!-- Graphic Chest Badge -->
+    <circle cx="200" cy="160" r="28" fill="#cad2c5" opacity="0.3"/>
+    <path d="M 188 160 L 212 160 M 200 148 L 200 172" stroke="#ffffff" stroke-width="3" stroke-linecap="round" opacity="0.7"/>
+  </g>
+</svg>

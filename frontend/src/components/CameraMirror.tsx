@@ -1,6 +1,8 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useCamera } from '../hooks/useCamera';
 import { Product } from '../types';
+import { extractTransparentGarment } from '../lib/garmentProcessor';
+import { trackVideoPose, PoseLandmarks } from '../lib/poseTracker';
 
 interface CameraMirrorProps {
   onCaptureSnapshot: (base64Image: string) => void;
@@ -27,34 +29,33 @@ export const CameraMirror: React.FC<CameraMirrorProps> = ({
 
   const overlayCanvasRef = useRef<HTMLCanvasElement>(null);
   const animationFrameRef = useRef<number | null>(null);
-  const garmentImageRef = useRef<HTMLImageElement | null>(null);
+  const processedGarmentCanvasRef = useRef<HTMLCanvasElement | null>(null);
 
   const [guidance, setGuidance] = useState('Full body detected. Live AR active.');
   const [poseStatus, setPoseStatus] = useState<'ideal' | 'closer' | 'further'>('ideal');
 
-  // Preload active garment image when activeProduct changes
+  // Process product image to extract transparent garment (background removal)
   useEffect(() => {
     if (activeProduct && activeProduct.images && activeProduct.images.length > 0) {
       const img = new Image();
       img.crossOrigin = 'anonymous';
       img.src = activeProduct.images[0];
       img.onload = () => {
-        garmentImageRef.current = img;
+        const transparentCanvas = extractTransparentGarment(img);
+        processedGarmentCanvasRef.current = transparentCanvas;
       };
     } else {
-      garmentImageRef.current = null;
+      processedGarmentCanvasRef.current = null;
     }
   }, [activeProduct]);
 
-  // Real-time canvas overlay rendering loop over live video feed
+  // Real-time video pose tracking & transparent garment rendering loop
   useEffect(() => {
-    let phase = 0;
-
     const renderOverlay = () => {
       const video = videoRef.current;
       const canvas = overlayCanvasRef.current;
 
-      if (video && canvas && isCameraActive) {
+      if (video && canvas && isCameraActive && video.readyState >= 2) {
         const width = video.videoWidth || 640;
         const height = video.videoHeight || 480;
 
@@ -67,58 +68,63 @@ export const CameraMirror: React.FC<CameraMirrorProps> = ({
         if (ctx) {
           ctx.clearRect(0, 0, width, height);
 
-          // If a garment is selected, render virtual garment overlay on upper body
-          if (garmentImageRef.current && garmentImageRef.current.complete) {
-            phase += 0.04;
-            const floatOffset = Math.sin(phase) * 3; // Natural breathing/posture sway
+          // Track user pose & torso landmarks from live video feed
+          const pose: PoseLandmarks = trackVideoPose(video);
 
+          // If transparent garment canvas is ready, render over detected torso
+          const garmentCanvas = processedGarmentCanvasRef.current;
+          if (garmentCanvas && garmentCanvas.width > 0) {
             const category = (activeProduct?.category || 'T-shirts').toLowerCase();
-            let overlayX = width * 0.28;
-            let overlayY = height * 0.22 + floatOffset;
-            let overlayW = width * 0.44;
-            let overlayH = height * 0.55;
 
-            if (category.includes('jeans') || category.includes('trouser')) {
-              overlayX = width * 0.30;
-              overlayY = height * 0.52 + floatOffset;
-              overlayW = width * 0.40;
-              overlayH = height * 0.42;
-            } else if (category.includes('jacket')) {
-              overlayX = width * 0.25;
-              overlayY = height * 0.18 + floatOffset;
-              overlayW = width * 0.50;
-              overlayH = height * 0.60;
+            // Calculate garment dimensions relative to detected shoulder width
+            let scaleFactor = 1.35;
+            let offsetYRatio = 0.08;
+
+            if (category.includes('jacket')) {
+              scaleFactor = 1.45;
+              offsetYRatio = 0.12;
+            } else if (category.includes('jeans') || category.includes('trouser')) {
+              scaleFactor = 1.15;
+              offsetYRatio = -0.50; // Align to lower waist/hips
             } else if (category.includes('shoe')) {
-              overlayX = width * 0.35;
-              overlayY = height * 0.75;
-              overlayW = width * 0.30;
-              overlayH = height * 0.20;
+              scaleFactor = 0.85;
+              offsetYRatio = -1.10;
             }
 
-            // Draw garment image over body
+            const garmentW = pose.shoulderWidth * scaleFactor;
+            const garmentH = garmentW * (garmentCanvas.height / garmentCanvas.width);
+
+            // Translate & rotate canvas to match detected shoulder angle & torso center
             ctx.save();
-            ctx.shadowColor = 'rgba(0, 0, 0, 0.4)';
-            ctx.shadowBlur = 15;
-            ctx.drawImage(garmentImageRef.current, overlayX, overlayY, overlayW, overlayH);
+            ctx.translate(pose.torsoCenter.x, pose.torsoCenter.y);
+            ctx.rotate(pose.shoulderAngle);
+
+            // Render ONLY the clothing pixels (background is completely transparent)
+            ctx.drawImage(
+              garmentCanvas,
+              -garmentW / 2,
+              -garmentH * offsetYRatio,
+              garmentW,
+              garmentH
+            );
             ctx.restore();
 
-            // Draw subtle AR pose tracking indicators
-            ctx.strokeStyle = 'rgba(99, 102, 241, 0.6)'; // Indigo tracking line
+            // Draw subtle real-time AR tracking landmarks for user feedback
+            ctx.strokeStyle = 'rgba(52, 211, 153, 0.7)'; // Emerald Green AR line
             ctx.lineWidth = 2;
-            ctx.setLineDash([6, 6]);
+            ctx.setLineDash([4, 4]);
 
-            // Shoulder alignment line
-            const shoulderY = overlayY + overlayH * 0.15;
+            // Shoulder tracking line
             ctx.beginPath();
-            ctx.moveTo(overlayX + 10, shoulderY);
-            ctx.lineTo(overlayX + overlayW - 10, shoulderY);
+            ctx.moveTo(pose.leftShoulder.x, pose.leftShoulder.y);
+            ctx.lineTo(pose.rightShoulder.x, pose.rightShoulder.y);
             ctx.stroke();
 
-            // Landmark tracking dots
-            ctx.fillStyle = '#34d399'; // Emerald green
+            // Shoulder landmark points
+            ctx.fillStyle = '#34d399';
             ctx.beginPath();
-            ctx.arc(overlayX + 15, shoulderY, 4, 0, Math.PI * 2);
-            ctx.arc(overlayX + overlayW - 15, shoulderY, 4, 0, Math.PI * 2);
+            ctx.arc(pose.leftShoulder.x, pose.leftShoulder.y, 4, 0, Math.PI * 2);
+            ctx.arc(pose.rightShoulder.x, pose.rightShoulder.y, 4, 0, Math.PI * 2);
             ctx.fill();
           }
         }
@@ -156,7 +162,7 @@ export const CameraMirror: React.FC<CameraMirrorProps> = ({
     return () => clearInterval(interval);
   }, []);
 
-  // Composite live video + garment overlay canvas for snapshot capture
+  // Composite live video + transparent garment canvas for snapshot capture
   const handleCapture = () => {
     const video = videoRef.current;
     const overlayCanvas = overlayCanvasRef.current;
@@ -182,7 +188,7 @@ export const CameraMirror: React.FC<CameraMirrorProps> = ({
     // Draw live webcam video frame
     ctx.drawImage(video, 0, 0, width, height);
 
-    // Draw garment overlay canvas frame
+    // Draw transparent garment overlay canvas frame
     if (overlayCanvas) {
       ctx.drawImage(overlayCanvas, 0, 0, width, height);
     }
@@ -211,7 +217,7 @@ export const CameraMirror: React.FC<CameraMirrorProps> = ({
         )}
       </div>
 
-      {/* Video Viewport & AR Overlay Canvas */}
+      {/* Video Viewport & Transparent Garment AR Overlay Canvas */}
       <div className="relative w-full h-full flex items-center justify-center bg-slate-950 overflow-hidden">
         <video
           ref={videoRef}
@@ -223,7 +229,7 @@ export const CameraMirror: React.FC<CameraMirrorProps> = ({
           }`}
         />
 
-        {/* Real-time Garment Overlay Canvas */}
+        {/* Transparent Garment Overlay Canvas */}
         <canvas
           ref={overlayCanvasRef}
           className={`absolute inset-0 w-full h-full pointer-events-none ${
@@ -271,7 +277,7 @@ export const CameraMirror: React.FC<CameraMirrorProps> = ({
             <span className="hidden sm:inline">Flip</span>
           </button>
 
-          {/* Fit Passport / Size Analysis (Optional intentional feature) */}
+          {/* Fit Passport / Size Analysis (Optional feature) */}
           {activeProduct && onOpenFitPassport && (
             <button
               onClick={() => onOpenFitPassport(activeProduct)}

@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useCamera } from '../hooks/useCamera';
 import { Product } from '../types';
+import { extractTransparentGarment } from '../lib/garmentProcessor';
 import { trackVideoPose, PoseLandmarks } from '../lib/poseTracker';
 
 interface CameraMirrorProps {
@@ -28,12 +29,12 @@ export const CameraMirror: React.FC<CameraMirrorProps> = ({
 
   const overlayCanvasRef = useRef<HTMLCanvasElement>(null);
   const animationFrameRef = useRef<number | null>(null);
-  const garmentImgRef = useRef<HTMLImageElement | null>(null);
+  const processedGarmentCanvasRef = useRef<HTMLCanvasElement | null>(null);
 
   const [guidance, setGuidance] = useState('Full body detected. Live AR active.');
   const [poseStatus, setPoseStatus] = useState<'ideal' | 'closer' | 'further'>('ideal');
 
-  // Preload clean transparent garment asset for live try-on
+  // Load actual product photo and extract transparent garment fabric texture
   useEffect(() => {
     if (activeProduct) {
       const assetUrl = activeProduct.tryOnAsset || activeProduct.images[0];
@@ -41,14 +42,24 @@ export const CameraMirror: React.FC<CameraMirrorProps> = ({
       img.crossOrigin = 'anonymous';
       img.src = assetUrl;
       img.onload = () => {
-        garmentImgRef.current = img;
+        const transparentCanvas = extractTransparentGarment(img);
+        processedGarmentCanvasRef.current = transparentCanvas;
+      };
+      img.onerror = () => {
+        // Fallback retry without crossOrigin if CORS restricted
+        const fallbackImg = new Image();
+        fallbackImg.src = activeProduct.images[0];
+        fallbackImg.onload = () => {
+          const transparentCanvas = extractTransparentGarment(fallbackImg);
+          processedGarmentCanvasRef.current = transparentCanvas;
+        };
       };
     } else {
-      garmentImgRef.current = null;
+      processedGarmentCanvasRef.current = null;
     }
   }, [activeProduct]);
 
-  // Real-time video pose tracking & clean transparent garment overlay loop
+  // Real-time video pose tracking & actual product garment rendering loop
   useEffect(() => {
     const renderOverlay = () => {
       const video = videoRef.current;
@@ -70,24 +81,24 @@ export const CameraMirror: React.FC<CameraMirrorProps> = ({
           // Track user pose & torso landmarks from live video feed
           const pose: PoseLandmarks = trackVideoPose(video);
 
-          // If clean transparent garment image is loaded, render cleanly over torso
-          const garmentImg = garmentImgRef.current;
-          if (garmentImg && garmentImg.complete && garmentImg.naturalWidth > 0) {
+          // Render ONLY the actual product's clothing pixels over detected torso
+          const garmentCanvas = processedGarmentCanvasRef.current;
+          if (garmentCanvas && garmentCanvas.width > 0) {
             const category = (activeProduct?.category || 'T-shirts').toLowerCase();
 
-            let scaleFactor = 1.30;
-            let offsetYRatio = 0.05; // Position below neck/collarbone
+            let scaleFactor = 1.35;
+            let offsetYRatio = 0.05;
 
             if (category.includes('jacket')) {
-              scaleFactor = 1.40;
-              offsetYRatio = 0.02;
+              scaleFactor = 1.45;
+              offsetYRatio = 0.08;
             } else if (category.includes('dress')) {
-              scaleFactor = 1.25;
+              scaleFactor = 1.30;
               offsetYRatio = 0.05;
             }
 
             const garmentW = pose.shoulderWidth * scaleFactor;
-            const garmentH = garmentW * (garmentImg.naturalHeight / garmentImg.naturalWidth);
+            const garmentH = garmentW * (garmentCanvas.height / garmentCanvas.width);
 
             // Translate & rotate canvas to match detected shoulder angle & torso center
             ctx.save();
@@ -95,9 +106,9 @@ export const CameraMirror: React.FC<CameraMirrorProps> = ({
             ctx.translate(pose.torsoCenter.x, targetY);
             ctx.rotate(pose.shoulderAngle);
 
-            // Render ONLY the transparent garment (0% background rectangle)
+            // Render ACTUAL PRODUCT CLOTHING PIXELS (0% background rectangle, 0% polygon)
             ctx.drawImage(
-              garmentImg,
+              garmentCanvas,
               -garmentW / 2,
               0,
               garmentW,

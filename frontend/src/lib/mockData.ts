@@ -19,7 +19,7 @@ export const MOCK_PRODUCTS: Product[] = [
       'https://images.unsplash.com/photo-1521572267360-ee0c2909d518?w=800&auto=format&fit=crop',
       'https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?w=800&auto=format&fit=crop',
     ],
-    tryOnAsset: '/garments/tshirt_black_oversized.svg',
+    tryOnAsset: 'https://images.unsplash.com/photo-1521572267360-ee0c2909d518?w=800&auto=format&fit=crop',
     product_url: 'https://www.myntra.com/tshirts/roadster/men-black-oversized/1001',
     affiliate_url: 'https://myntra.com/aff/aimirror/1001',
     available_sizes: ['S', 'M', 'L', 'XL', 'XXL'],
@@ -47,10 +47,10 @@ export const MOCK_PRODUCTS: Product[] = [
     currency: 'INR',
     discount: 10,
     images: [
+      'https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?w=800&auto=format&fit=crop',
       'https://images.unsplash.com/photo-1521572267360-ee0c2909d518?w=800&auto=format&fit=crop',
-      'https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?w=800&auto=format&fit=crop',
     ],
-    tryOnAsset: '/garments/tshirt_white_textured.svg',
+    tryOnAsset: 'https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?w=800&auto=format&fit=crop',
     product_url: 'https://www.zara.com/in/en/heavyweight-textured-white-tee-p1002',
     affiliate_url: 'https://zara.com/aff/aimirror/1002',
     available_sizes: ['XS', 'S', 'M', 'L', 'XL'],
@@ -79,7 +79,7 @@ export const MOCK_PRODUCTS: Product[] = [
     images: [
       'https://images.unsplash.com/photo-1576566588028-4147f3842f27?w=800&auto=format&fit=crop',
     ],
-    tryOnAsset: '/garments/tshirt_sage_vintage.svg',
+    tryOnAsset: 'https://images.unsplash.com/photo-1576566588028-4147f3842f27?w=800&auto=format&fit=crop',
     product_url: 'https://www2.hm.com/en_in/productpage.1003.html',
     affiliate_url: 'https://hm.com/aff/aimirror/1003',
     available_sizes: ['S', 'M', 'L', 'XL'],
@@ -111,7 +111,7 @@ export const MOCK_PRODUCTS: Product[] = [
       'https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=800&auto=format&fit=crop',
       'https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf?w=800&auto=format&fit=crop',
     ],
-    tryOnAsset: '/garments/shirt_blue_linen.svg',
+    tryOnAsset: 'https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=800&auto=format&fit=crop',
     product_url: 'https://www.ajio.com/netplay-linen-casual-shirt/p/1004',
     affiliate_url: 'https://ajio.com/aff/aimirror/1004',
     available_sizes: ['38', '40', '42', '44'],
@@ -140,7 +140,7 @@ export const MOCK_PRODUCTS: Product[] = [
     images: [
       'https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf?w=800&auto=format&fit=crop',
     ],
-    tryOnAsset: '/garments/tshirt_white_textured.svg',
+    tryOnAsset: 'https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf?w=800&auto=format&fit=crop',
     product_url: 'https://www.amazon.in/dp/B005AMZ1005',
     affiliate_url: 'https://amazon.in/aff/aimirror/1005',
     available_sizes: ['S', 'M', 'L', 'XL'],
@@ -171,7 +171,7 @@ export const MOCK_PRODUCTS: Product[] = [
       'https://images.unsplash.com/photo-1543076447-215ad9ba6923?w=800&auto=format&fit=crop',
       'https://images.unsplash.com/photo-1576995853123-5a10305d93c0?w=800&auto=format&fit=crop',
     ],
-    tryOnAsset: '/garments/jacket_denim_trucker.svg',
+    tryOnAsset: 'https://images.unsplash.com/photo-1543076447-215ad9ba6923?w=800&auto=format&fit=crop',
     product_url: 'https://www.myntra.com/jackets/levis/trucker-denim/1006',
     affiliate_url: 'https://myntra.com/aff/aimirror/1006',
     available_sizes: ['S', 'M', 'L', 'XL'],
@@ -199,7 +199,7 @@ export const MOCK_PRODUCTS: Product[] = [
     images: [
       'https://images.unsplash.com/photo-1551028719-00167b16eac5?w=800&auto=format&fit=crop',
     ],
-    tryOnAsset: '/garments/jacket_black_leather.svg',
+    tryOnAsset: 'https://images.unsplash.com/photo-1551028719-00167b16eac5?w=800&auto=format&fit=crop',
     product_url: 'https://www.zara.com/in/en/biker-jacket-p1007',
     affiliate_url: 'https://zara.com/aff/aimirror/1007',
     available_sizes: ['S', 'M', 'L', 'XL'],
@@ -230,7 +230,7 @@ export const MOCK_PRODUCTS: Product[] = [
       'https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=800&auto=format&fit=crop',
       'https://images.unsplash.com/photo-1539109136881-3be0616acf4b?w=800&auto=format&fit=crop',
     ],
-    tryOnAsset: '/garments/dress_floral_midi.svg',
+    tryOnAsset: 'https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=800&auto=format&fit=crop',
     product_url: 'https://www.nykaafashion.com/twenty-dresses-floral-midi/p/1008',
     affiliate_url: 'https://nykaafashion.com/aff/aimirror/1008',
     available_sizes: ['XS', 'S', 'M', 'L', 'XL'],
@@ -258,7 +258,7 @@ export const MOCK_PRODUCTS: Product[] = [
     images: [
       'https://images.unsplash.com/photo-1539109136881-3be0616acf4b?w=800&auto=format&fit=crop',
     ],
-    tryOnAsset: '/garments/dress_black_bodycon.svg',
+    tryOnAsset: 'https://images.unsplash.com/photo-1539109136881-3be0616acf4b?w=800&auto=format&fit=crop',
     product_url: 'https://www2.hm.com/en_in/productpage.1009.html',
     affiliate_url: 'https://hm.com/aff/aimirror/1009',
     available_sizes: ['XS', 'S', 'M', 'L'],
@@ -288,7 +288,7 @@ export const MOCK_PRODUCTS: Product[] = [
     images: [
       'https://images.unsplash.com/photo-1541099649105-f69ad21f3246?w=800&auto=format&fit=crop',
     ],
-    tryOnAsset: '/garments/tshirt_black_oversized.svg',
+    tryOnAsset: 'https://images.unsplash.com/photo-1541099649105-f69ad21f3246?w=800&auto=format&fit=crop',
     product_url: 'https://www.myntra.com/jeans/levis/511-slim-blue/1010',
     affiliate_url: 'https://myntra.com/aff/aimirror/1010',
     available_sizes: ['30', '32', '34', '36'],
@@ -316,7 +316,7 @@ export const MOCK_PRODUCTS: Product[] = [
     images: [
       'https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?w=800&auto=format&fit=crop',
     ],
-    tryOnAsset: '/garments/tshirt_white_textured.svg',
+    tryOnAsset: 'https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?w=800&auto=format&fit=crop',
     product_url: 'https://www.zara.com/in/en/pleated-chino-p1011',
     affiliate_url: 'https://zara.com/aff/aimirror/1011',
     available_sizes: ['30', '32', '34', '36'],
@@ -346,7 +346,7 @@ export const MOCK_PRODUCTS: Product[] = [
     images: [
       'https://images.unsplash.com/photo-1549298916-b41d501d3772?w=800&auto=format&fit=crop',
     ],
-    tryOnAsset: '/garments/tshirt_sage_vintage.svg',
+    tryOnAsset: 'https://images.unsplash.com/photo-1549298916-b41d501d3772?w=800&auto=format&fit=crop',
     product_url: 'https://www.amazon.in/dp/B005AMZ1012',
     affiliate_url: 'https://amazon.in/aff/aimirror/1012',
     available_sizes: ['UK 7', 'UK 8', 'UK 9', 'UK 10'],
@@ -360,21 +360,11 @@ export const MOCK_PRODUCTS: Product[] = [
   },
 ];
 
-// Map clean transparent garment assets for synthetic products 13..50
+// Map real product photo tryOnAsset for synthetic products 13..50
 const BRANDS = ['Roadster', 'HRX', 'Levis', 'Zara', 'H&M', 'Mango', 'Twenty Dresses', 'Netplay', 'Puma', 'Nike', 'Adidas'];
 const RETAILERS = ['Myntra', 'Nykaa', 'AJIO', 'Amazon', 'Zara', 'H&M'];
 const CATEGORIES = ['T-shirts', 'Shirts', 'Jackets', 'Dresses', 'Jeans', 'Trousers', 'Shoes'];
 const FITS = ['Regular Fit', 'Slim Fit', 'Relaxed Fit', 'Oversized'];
-
-const GARMENT_ASSET_MAP: Record<string, string> = {
-  't-shirts': '/garments/tshirt_black_oversized.svg',
-  'shirts': '/garments/shirt_blue_linen.svg',
-  'jackets': '/garments/jacket_denim_trucker.svg',
-  'dresses': '/garments/dress_floral_midi.svg',
-  'jeans': '/garments/tshirt_black_oversized.svg',
-  'trousers': '/garments/tshirt_white_textured.svg',
-  'shoes': '/garments/tshirt_sage_vintage.svg',
-};
 
 for (let i = 13; i <= 50; i++) {
   const cat = CATEGORIES[i % CATEGORIES.length];
@@ -382,7 +372,6 @@ for (let i = 13; i <= 50; i++) {
   const ret = RETAILERS[i % RETAILERS.length];
   const fit = FITS[i % FITS.length];
   const baseProduct = MOCK_PRODUCTS[(i - 1) % 12];
-  const asset = GARMENT_ASSET_MAP[cat.toLowerCase()] || '/garments/tshirt_black_oversized.svg';
 
   MOCK_PRODUCTS.push({
     id: i,
@@ -398,7 +387,7 @@ for (let i = 13; i <= 50; i++) {
     currency: 'INR',
     discount: Math.floor((i * 5) % 40),
     images: [baseProduct.images[0]],
-    tryOnAsset: asset,
+    tryOnAsset: baseProduct.images[0],
     product_url: `https://www.${ret.toLowerCase().replace(/\s+/g, '')}.com/p/${i}`,
     affiliate_url: `https://${ret.toLowerCase().replace(/\s+/g, '')}.com/aff/aimirror/${i}`,
     available_sizes: cat === 'Jeans' ? ['30', '32', '34'] : cat === 'Shoes' ? ['UK 7', 'UK 8', 'UK 9'] : ['S', 'M', 'L', 'XL'],

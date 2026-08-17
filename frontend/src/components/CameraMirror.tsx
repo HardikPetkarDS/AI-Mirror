@@ -3,6 +3,7 @@ import { useCamera } from '../hooks/useCamera';
 import { Product } from '../types';
 import { extractTransparentGarment } from '../lib/garmentProcessor';
 import { trackVideoPose, PoseLandmarks } from '../lib/poseTracker';
+import { drawWarpedGarmentMesh } from '../lib/garmentMeshWarper';
 
 interface CameraMirrorProps {
   onCaptureSnapshot: (base64Image: string) => void;
@@ -34,48 +35,51 @@ export const CameraMirror: React.FC<CameraMirrorProps> = ({
   const [guidance, setGuidance] = useState('Full body detected. Live AR active.');
   const [poseStatus, setPoseStatus] = useState<'ideal' | 'closer' | 'further'>('ideal');
 
-  // Load actual product photo / transparent garment asset
+  // Clear previous garment state & load new selected product garment asset
   useEffect(() => {
+    // Instantly reset previous garment canvas on product change
+    processedGarmentCanvasRef.current = null;
+
     if (activeProduct) {
       const assetUrl = activeProduct.tryOnAsset || activeProduct.images[0];
       const img = new Image();
       img.crossOrigin = 'anonymous';
       img.src = assetUrl;
+
       img.onload = () => {
-        console.log('[AI Mirror Product Diagnostic]', {
-          id: activeProduct.id,
-          name: activeProduct.name,
-          assetUrl,
-          loaded: true,
+        console.log({
+          productName: activeProduct.name,
+          productImageUrl: assetUrl,
+          imageLoaded: true,
           naturalWidth: img.naturalWidth,
           naturalHeight: img.naturalHeight,
         });
+
         const transparentCanvas = extractTransparentGarment(img);
         processedGarmentCanvasRef.current = transparentCanvas;
       };
+
       img.onerror = () => {
-        console.warn('[AI Mirror Product Load Warning] Cross-origin retry for product:', activeProduct.name);
+        console.warn('[AI Mirror] Retrying cross-origin load for:', activeProduct.name);
         const fallbackImg = new Image();
         fallbackImg.src = activeProduct.images[0];
         fallbackImg.onload = () => {
-          console.log('[AI Mirror Product Diagnostic Fallback]', {
-            id: activeProduct.id,
-            name: activeProduct.name,
-            assetUrl: activeProduct.images[0],
-            loaded: true,
+          console.log({
+            productName: activeProduct.name,
+            productImageUrl: activeProduct.images[0],
+            imageLoaded: true,
             naturalWidth: fallbackImg.naturalWidth,
             naturalHeight: fallbackImg.naturalHeight,
           });
+
           const transparentCanvas = extractTransparentGarment(fallbackImg);
           processedGarmentCanvasRef.current = transparentCanvas;
         };
       };
-    } else {
-      processedGarmentCanvasRef.current = null;
     }
   }, [activeProduct]);
 
-  // Real-time video pose tracking & actual product garment rendering loop
+  // Real-time video pose tracking & 2D texture mesh deformation rendering loop
   useEffect(() => {
     const renderOverlay = () => {
       const video = videoRef.current;
@@ -92,64 +96,16 @@ export const CameraMirror: React.FC<CameraMirrorProps> = ({
 
         const ctx = canvas.getContext('2d');
         if (ctx) {
+          // Clear canvas frame before rendering
           ctx.clearRect(0, 0, width, height);
 
-          // Track user pose & torso landmarks from live video feed
+          // Track live body landmarks (left/right shoulders, hips, torso)
           const pose: PoseLandmarks = trackVideoPose(video);
 
-          // Render ONLY the actual product's clothing pixels over detected torso
+          // Render ONLY the actual product garment using 2D mesh deformation
           const garmentCanvas = processedGarmentCanvasRef.current;
           if (garmentCanvas && garmentCanvas.width > 0) {
-            const category = (activeProduct?.category || 'T-shirts').toLowerCase();
-
-            let scaleFactor = 1.30;
-            if (category.includes('jacket')) {
-              scaleFactor = 1.40;
-            } else if (category.includes('dress')) {
-              scaleFactor = 1.25;
-            }
-
-            const garmentW = pose.shoulderWidth * scaleFactor;
-            const garmentH = garmentW * (garmentCanvas.height / garmentCanvas.width);
-
-            // Compute center point between shoulders
-            const shoulderCenterX = (pose.leftShoulder.x + pose.rightShoulder.x) / 2;
-            const shoulderCenterY = (pose.leftShoulder.y + pose.rightShoulder.y) / 2;
-
-            // Place garment collar just below neck/collarbone (safely below face)
-            const targetY = shoulderCenterY + 12;
-
-            ctx.save();
-            ctx.translate(shoulderCenterX, targetY);
-            ctx.rotate(pose.shoulderAngle);
-
-            // Render ACTUAL PRODUCT CLOTHING ASSET (0% background rectangle, 0% polygon)
-            ctx.drawImage(
-              garmentCanvas,
-              -garmentW / 2,
-              0,
-              garmentW,
-              garmentH
-            );
-            ctx.restore();
-
-            // Draw subtle real-time AR tracking landmarks for user feedback
-            ctx.strokeStyle = 'rgba(52, 211, 153, 0.7)'; // Emerald Green AR line
-            ctx.lineWidth = 2;
-            ctx.setLineDash([4, 4]);
-
-            // Shoulder tracking line
-            ctx.beginPath();
-            ctx.moveTo(pose.leftShoulder.x, pose.leftShoulder.y);
-            ctx.lineTo(pose.rightShoulder.x, pose.rightShoulder.y);
-            ctx.stroke();
-
-            // Shoulder landmark points
-            ctx.fillStyle = '#34d399';
-            ctx.beginPath();
-            ctx.arc(pose.leftShoulder.x, pose.leftShoulder.y, 4, 0, Math.PI * 2);
-            ctx.arc(pose.rightShoulder.x, pose.rightShoulder.y, 4, 0, Math.PI * 2);
-            ctx.fill();
+            drawWarpedGarmentMesh(ctx, garmentCanvas, pose);
           }
         }
       }

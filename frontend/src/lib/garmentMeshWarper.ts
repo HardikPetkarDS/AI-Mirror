@@ -16,8 +16,8 @@ export function drawWarpedGarmentMesh(
   garmentCanvas: HTMLCanvasElement | HTMLImageElement,
   landmarks: PoseLandmarks
 ) {
-  const texW = garmentCanvas.naturalWidth || garmentCanvas.width;
-  const texH = garmentCanvas.naturalHeight || garmentCanvas.height;
+  const texW = ('naturalWidth' in garmentCanvas ? garmentCanvas.naturalWidth : garmentCanvas.width) || garmentCanvas.width;
+  const texH = ('naturalHeight' in garmentCanvas ? garmentCanvas.naturalHeight : garmentCanvas.height) || garmentCanvas.height;
   if (!texW || !texH) return;
 
   // Extract key pose landmark anchors
